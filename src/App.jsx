@@ -2,6 +2,9 @@ import { Link, Route, Routes, useParams } from "react-router";
 import Nav from "./Components/NavBar/Nav.jsx";
 import Home from "./Components/Homepage/Home.jsx";
 import Gallery from "./Components/Gallery/Gallery.jsx";
+import Commissions from "./Components/Commissions/Commissions.jsx";
+import Request from "./Components/Request/Request.jsx";
+import Dashboard from "./Components/Dashboard/Dashboard.jsx";
 import "./App.css";
 
 function PlaceholderPage({ title, children }) {
@@ -34,32 +37,10 @@ export default function App() {
       <main id="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
-
           <Route path="/gallery" element={<Gallery />} />
-
-          <Route
-            path="/artwork/:slug"
-            element={<ArtworkDetails />}
-          />
-
-          <Route
-            path="/commissions"
-            element={
-              <PlaceholderPage title="Commissions">
-                Explore Lumi's commission services and process.
-              </PlaceholderPage>
-            }
-          />
-
-          <Route
-            path="/commission-request"
-            element={
-              <PlaceholderPage title="Request a Commission">
-                The commission request form will appear here.
-              </PlaceholderPage>
-            }
-          />
-
+          <Route path="/artwork/:slug" element={<ArtworkDetails />} />
+          <Route path="/commissions" element={<Commissions />} />
+          <Route path="/commission-request" element={<Request />} />
           <Route
             path="/about"
             element={
@@ -68,16 +49,7 @@ export default function App() {
               </PlaceholderPage>
             }
           />
-
-          <Route
-            path="/artist"
-            element={
-              <PlaceholderPage title="Artist Dashboard">
-                Dashboard preview. Artist sign-in will be added later.
-              </PlaceholderPage>
-            }
-          />
-
+          <Route path="/artist" element={<Dashboard />} />
           <Route
             path="*"
             element={
