@@ -1,13 +1,11 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink } from "react-router-dom";
 import "./Nav.css";
 
 const navigationLinks = [
   { to: "/", label: "Home" },
   { to: "/gallery", label: "Gallery" },
-  { to: "/commissions", label: "Commissions" },
-  { to: "/commission-request", label: "Request a Commission" },
+  { to: "/commissions", label: "Services" },
   { to: "/about", label: "About" },
-  { to: "/artist", label: "Artist Dashboard" },
 ];
 
 export default function Nav() {
@@ -15,24 +13,30 @@ export default function Nav() {
     <header className="site-header">
       <nav className="site-nav" aria-label="Main navigation">
         <Link to="/" className="site-brand">
-          Lumi's Art Portal
+          Luminium
         </Link>
 
-        <ul className="nav-links">
-          {navigationLinks.map(({ to, label }) => (
-            <li key={to}>
-              <NavLink
-                to={to}
-                end={to === "/"}
-                className={({ isActive }) =>
-                  `nav-link${isActive ? " is-active" : ""}`
-                }
-              >
-                {label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        <div className="nav-right">
+          <ul className="nav-links">
+            {navigationLinks.map(({ to, label }) => (
+              <li key={to}>
+                <NavLink
+                  to={to}
+                  end={to === "/"}
+                  className={({ isActive }) =>
+                    `nav-link${isActive ? " is-active" : ""}`
+                  }
+                >
+                  {label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+
+          <Link to="/commission-request" className="nav-cta">
+            Commission
+          </Link>
+        </div>
       </nav>
     </header>
   );
