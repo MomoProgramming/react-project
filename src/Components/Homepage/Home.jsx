@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import "./Home.css";
 
-// Put your images in src/assets/ with these names (or change the imports)
+
 import moonlitVigil from "../../assets/moonlit-vigil.jpg";
 import portraitImg from "../../assets/portrait.jpg";
 import fullBodyImg from "../../assets/full-body.jpg";
@@ -76,7 +76,10 @@ export default function Home() {
 
         <figure className="hero-featured">
           <img src={moonlitVigil} alt="Moonlit Vigil" />
-          <figcaption>Featured — &quot;Moonlit Vigil&quot;</figcaption>
+          <figcaption>
+            <span className="feat-label">Featured work</span>
+            <span className="feat-title">Moonlit Vigil</span>
+          </figcaption>
         </figure>
       </section>
 
