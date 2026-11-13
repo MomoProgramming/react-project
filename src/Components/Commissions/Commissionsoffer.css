@@ -1,0 +1,158 @@
+/* Category intro page buttons (Go back / View in gallery / next category).
+   Imported after CommissionsOfferV2.css so it overrides it. */
+
+Commissionsofferv2 · CSS
+/* Extra styles for "What I offer" (Commissions page). Import after Commissions.css. */
+ 
+/* ---------- "Categories" title + lowered picture ---------- */
+ 
+.com-container .featured-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(2.5rem);   /* moves title + picture lower */
+}
+ 
+.com-container .featured-title {
+  font-family: "Cormorant SC", "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-size: 1.9rem;
+  letter-spacing: 4px;
+  color: #ffffff;
+  margin-bottom: 1.4rem;
+}
+ 
+.com-container .featured-wrap img {
+  max-width: 480px;
+  max-height: 420px;
+}
+ 
+/* ---------- Squares: one column of four ---------- */
+ 
+.com-container .grid-thumbnails-col {
+  flex-wrap: nowrap;
+  height: auto;
+  gap: 1.1rem;
+}
+ 
+.com-container .thumb-square {
+  position: relative;
+}
+ 
+/* Squares a bit closer to the white neon line */
+.com-container .grid-thumbnails-col {
+  padding-left: 1rem;
+}
+ 
+/* ---------- Hover label: glued to the square, same height, black fading to clear ---------- */
+ 
+.com-container .thumb-label {
+  position: absolute;
+  top: 0;
+  bottom: 0;                      /* same height as the square */
+  left: 100%;                     /* touching the square */
+  transform: translateX(-8px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0 3.5rem 0 1.1rem;
+  background: linear-gradient(
+    90deg,
+    #000000 0%,
+    rgba(0, 0, 0, 0.88) 40%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 20;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+ 
+/* stays open while the mouse is on the square OR on the label itself */
+.com-container .thumb-square:hover .thumb-label {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+ 
+.com-container .thumb-label-name {
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+ 
+/* "View more" is a real button: clickable, lights up on hover */
+.com-container .thumb-label-more {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #d61c38;
+  cursor: pointer;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+ 
+.com-container .thumb-label-more:hover,
+.com-container .thumb-label-more:focus-visible {
+  color: #ff4d66;
+  text-shadow: 0 0 10px rgba(255, 60, 90, 0.85);
+  outline: none;
+}
+
+.com-container .intro-back,
+.com-container .intro-next {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  font-family: "Cormorant Garamond", serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s ease, text-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* Go back: small, quiet, a little higher */
+.com-container .intro-back {
+  align-self: flex-start;
+  display: inline-block;
+  margin-bottom: 1.2rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-14px);   /* higher: increase the number */
+}
+
+/* Next category: thin underline, a little lower and further right */
+.com-container .intro-next {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  transform: translate(44px, 26px);   /* right, down: change these */
+}
+
+.com-container .intro-back:hover,
+.com-container .intro-back:focus-visible,
+.com-container .intro-next:hover,
+.com-container .intro-next:focus-visible {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.55);
+  outline: none;
+}
+
+.com-container .intro-next:hover,
+.com-container .intro-next:focus-visible {
+  border-bottom-color: rgba(214, 28, 56, 0.9);
+}

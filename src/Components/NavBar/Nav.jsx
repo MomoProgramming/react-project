@@ -5,7 +5,6 @@ const navigationLinks = [
   { to: "/", label: "Home" },
   { to: "/gallery", label: "Gallery" },
   { to: "/commissions", label: "Services" },
-  { to: "/about", label: "About" },
 ];
 
 export default function Nav() {
