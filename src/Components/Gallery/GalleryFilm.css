@@ -1,0 +1,145 @@
+/* Additions for the new Gallery home (welcome + 35mm film strips).
+   Import this AFTER Gallery.css in Gallery.jsx. */
+
+/* ---------- Film strip background ---------- */
+
+.film-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  gap: 0;
+  z-index: 1;
+  opacity: 0.4;                 /* lower = darker overall */
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity 0.6s ease;
+}
+
+.film-strip {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  background: none;
+}
+
+.film-track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.film-track.is-up   { animation-name: filmUp; }
+.film-track.is-down { animation-name: filmDown; }
+
+@keyframes filmUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
+@keyframes filmDown {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+
+/* Artworks sit directly against each other: no holes, no borders, no gaps */
+.film-frame {
+  flex: 0 0 192px;
+  height: 192px;
+  padding: 0;
+}
+
+.film-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.8) saturate(1.1);
+}
+
+/* Extra darkening + vignette over the strips */
+.film-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, rgba(8, 3, 5, 0.55) 0%, rgba(8, 3, 5, 0.9) 100%);
+}
+
+/* ---------- Welcome text ---------- */
+
+.welcome-panel {
+  text-align: center;
+  max-width: 640px;
+  padding: 0 2rem;
+}
+
+.welcome-kicker {
+  display: block;
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.welcome-title {
+  font-family: "Cormorant SC", "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  letter-spacing: 4px;
+  line-height: 1.15;
+  color: #ffffff;
+  text-shadow: 0 0 24px rgba(214, 28, 56, 0.45);
+  margin-bottom: 1.2rem;
+}
+
+.welcome-text {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 900px) {
+  .film-strip:nth-child(n + 5) { display: none; }
+}
+
+/* ---------- Artworks view: background = zoomed, blurred copy of the artwork ---------- */
+
+.bg-base-texture,
+.bg-overlay-texture {
+  transition: opacity 0.6s ease;
+}
+
+/* dim the base grunge so the artwork's colours show; the smoke overlay stays */
+.gallery-container.is-artworks .bg-base-texture    { opacity: 0.08; }
+
+.gallery-container.is-artworks .bg-blur-layer {
+  mix-blend-mode: normal;
+  filter: blur(70px) saturate(130%) brightness(0.6);
+  -webkit-filter: blur(70px) saturate(130%) brightness(0.6);
+  transform: scale(1.2);        /* zoomed in */
+}
+
+.gallery-container.is-artworks .bg-blur-layer.is-visible {
+  opacity: 0.95;                /* lower for a subtler background */
+  transform: scale(1.0);
+}
+
+/* Keep the smoke texture visible ABOVE the blurred artwork */
+.gallery-container.is-artworks .bg-overlay-texture {
+  z-index: 2;
+}
+ 
+/* Smoke texture: less zoomed (shows the whole image instead of cropping it) */
+.gallery-container .bg-overlay-texture {
+  background-size: 100% 100%;   /* try "contain" or "80% auto" for even less zoom */
+}
+ 
+.gallery-container.is-artworks .bg-overlay-texture {
+  opacity: 0.35;                 /* higher = smoke and red particles show more */
+}

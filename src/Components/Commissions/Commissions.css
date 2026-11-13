@@ -1,0 +1,427 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Cormorant+SC:wght@300;400;500&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  background-color: #080305;
+  color: #e0d0d8;
+  font-family: "Cormorant Garamond", serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Layout & background (same atmosphere as the gallery)
+   ========================================================================== */
+
+.com-container {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #0a0407;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.com-bg-base {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.com-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Decorative lines */
+.com-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.com-line-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.com-line-v-1 { left: 19%; }
+.com-line-v-2 { left: 22%; opacity: 0.35; }
+.com-line-v-3 { left: 74.5%; }
+
+.com-line-h-top {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Gradient line + soft neon glow next to the left navbar.
+   max() keeps it in place on screens narrower than 1500px. */
+.com-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(max(0px, (100vw - 1500px) / 2) + 2rem + 240px + 8px);
+  width: 1px;
+  background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.com-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(max(0px, (100vw - 1500px) / 2) + 2rem + 240px + 8px - 12px);
+  width: 12px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.25));
+  filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.com-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1500px;
+  height: 80vh;
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  padding: 0 2rem;
+}
+
+/* ==========================================================================
+   Left navbar
+   ========================================================================== */
+
+.com-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.5rem;
+  padding-left: 1rem;
+}
+
+.com-nav-btn {
+  position: relative;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: left;
+  cursor: pointer;
+  padding-left: 1rem;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.com-nav-btn::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #d61c38;
+  box-shadow: 0 0 10px #d61c38;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.com-nav-btn.is-active::before { opacity: 1; }
+.com-nav-btn:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+.com-nav-btn.is-active {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+/* ==========================================================================
+   Display area
+   ========================================================================== */
+
+.com-display {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3rem 0 4rem;
+  overflow-y: auto;
+}
+
+.com-panel {
+  width: 100%;
+  max-width: 860px;
+}
+
+.com-fade-in {
+  animation: comFadeIn 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes comFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.com-kicker {
+  display: block;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 0.6rem;
+}
+
+.com-title {
+  font-family: "Cormorant SC", "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-size: 2.1rem;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin-bottom: 0.8rem;
+}
+
+.com-lead {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 640px;
+  margin-bottom: 1.8rem;
+}
+
+/* ---------- What I offer: cards ---------- */
+
+.com-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.com-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.3rem 1.4rem;
+  background: rgba(10, 4, 7, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.com-card:hover {
+  border-color: rgba(214, 28, 56, 0.55);
+  transform: translateY(-2px);
+}
+
+.com-card-id {
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.4rem;
+}
+
+.com-card-title {
+  font-weight: 500;
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.com-card-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 0.9rem;
+}
+
+.com-card-price {
+  margin-top: auto;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: #d61c38;
+}
+
+/* ---------- What to expect: steps ---------- */
+
+.com-steps {
+  list-style: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+  padding-left: 1.6rem;
+  margin-bottom: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.com-step {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.com-step-num {
+  font-family: "Cormorant SC", "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  color: #d61c38;
+  min-width: 1.8rem;
+}
+
+.com-step-title {
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+
+.com-step-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.com-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.com-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.9rem 1.1rem;
+  background: rgba(10, 4, 7, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.com-fact-label {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.com-fact-value {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Request button ---------- */
+
+.com-btn {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(90deg, #d61c38, #800e20);
+  color: #ffffff;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  box-shadow: 0 6px 20px rgba(214, 28, 56, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.com-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(214, 28, 56, 0.55);
+}
+
+.com-btn:focus-visible {
+  outline: 2px solid #d61c38;
+  outline-offset: 3px;
+}
+
+/* Footer tag */
+.com-footer-tag {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 1px;
+  z-index: 10;
+}
+
+/* ==========================================================================
+   Small screens
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .com-content {
+    grid-template-columns: 1fr;
+    height: auto;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  .com-sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    padding: 0 0 1.5rem;
+  }
+
+  .com-display {
+    padding: 0;
+    overflow-y: visible;
+  }
+
+  .com-cards,
+  .com-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .com-container::before,
+  .com-container::after {
+    display: none;
+  }
+}
