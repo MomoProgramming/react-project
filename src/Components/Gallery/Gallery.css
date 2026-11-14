@@ -452,27 +452,7 @@ html {
   margin-bottom: 2rem;
 }
 
-.intro-btn {
-  display: inline-flex;
-  align-items: center;
-  background: linear-gradient(90deg, #d61c38, #800e20);
-  color: #ffffff;
-  border: none;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 0.7rem 1.8rem;
-  border-radius: 9999px;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(214, 28, 56, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.intro-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(214, 28, 56, 0.55);
-}
+/* .intro-btn is styled in NavBar/Nav.css (shared red button) */
 
 /* Footer tag */
 .gallery-footer-tag {

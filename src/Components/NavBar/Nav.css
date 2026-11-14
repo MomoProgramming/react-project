@@ -1,3 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap");
+
+:root {
+  /* "Hokkori"-style handwritten font. Change it here to change it everywhere. */
+  --font-hokkori: "Zen Kurenaido", "Cormorant Garamond", cursive;
+}
+
 .site-header {
   position: fixed;
   top: 0;
@@ -32,10 +39,9 @@
 
 .site-brand {
   color: #ffffff;
-  font-family: "Cormorant Garamond", serif;
-  font-style: italic;
-  font-size: 1.45rem;
-  font-weight: 500;
+  font-family: var(--font-hokkori);
+  font-size: 1.6rem;
+  font-weight: 400;
   text-decoration: none;
   letter-spacing: 1px;
 }
@@ -73,11 +79,23 @@
   font-weight: 500;
 }
 
-/* Commission button: near-black with a dark red edge and glow */
-.nav-cta {
+/* The Commission button (.nav-cta) is styled below, shared with all red buttons */
+
+.site-nav a:focus-visible {
+  outline: 2px solid #d61c38;
+  outline-offset: 3px;
+  border-radius: 9999px;
+}
+
+/* ---------- Shared red button (same look as the navbar "Commission" button) ---------- */
+.nav-cta,
+.intro-btn,
+.com-btn,
+.cta-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
   background: linear-gradient(135deg, #2b0510 0%, #0a0204 100%);
   color: #f0a8b4;
   font-family: "Cormorant SC", "Cormorant Garamond", serif;
@@ -85,26 +103,30 @@
   font-weight: 500;
   letter-spacing: 2px;
   text-transform: uppercase;
+  text-decoration: none;
   padding: 0.6rem 1.5rem;
   border: 1px solid rgba(160, 20, 45, 0.8);
   border-radius: 9999px;
-  text-decoration: none;
+  cursor: pointer;
   box-shadow: 0 0 14px rgba(160, 20, 45, 0.35),
     inset 0 0 10px rgba(160, 20, 45, 0.25);
   transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease,
     background 0.2s ease;
 }
 
-.nav-cta:hover {
+.intro-btn,
+.com-btn,
+.cta-btn {
+  padding: 0.75rem 2rem;
+}
+
+.nav-cta:hover,
+.intro-btn:hover,
+.com-btn:hover,
+.cta-btn:hover {
   color: #ffffff;
   background: linear-gradient(135deg, #5a0a1c 0%, #1a0308 100%);
   transform: translateY(-2px);
   box-shadow: 0 0 22px rgba(190, 25, 55, 0.55),
     inset 0 0 12px rgba(190, 25, 55, 0.35);
-}
-
-.site-nav a:focus-visible {
-  outline: 2px solid #d61c38;
-  outline-offset: 3px;
-  border-radius: 9999px;
 }

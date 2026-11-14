@@ -367,26 +367,7 @@ html {
 
 /* ---------- Request button ---------- */
 
-.com-btn {
-  display: inline-flex;
-  align-items: center;
-  background: linear-gradient(90deg, #d61c38, #800e20);
-  color: #ffffff;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.75rem 2rem;
-  border-radius: 9999px;
-  box-shadow: 0 6px 20px rgba(214, 28, 56, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.com-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(214, 28, 56, 0.55);
-}
+/* .com-btn is styled in NavBar/Nav.css (shared red button) */
 
 .com-btn:focus-visible {
   outline: 2px solid #d61c38;

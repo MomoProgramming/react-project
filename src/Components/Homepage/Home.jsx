@@ -1,33 +1,44 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import "./Home.css";
 
 
-import moonlitVigil from "../../assets/moonlit-vigil.jpg";
-import portraitImg from "../../assets/portrait.jpg";
-import fullBodyImg from "../../assets/full-body.jpg";
-import sceneImg from "../../assets/scene.jpg";
+import heroBg from "../../assets/hero-bg2.jpg";
+import logoImg from "../../assets/lumi-logo2.png";
+import heroVideo from "../../assets/hero-video2.mp4";
 import artistImg from "../../assets/artist.jpg";
+import { categories, itemsOf } from "../Gallery/galleryData";
 
-const services = [
-  {
-    title: "Portrait",
-    text: "A painted bust or headshot with soft lighting, expressive detail, and a simple atmospheric background.",
+// Short text + price for each category on the homepage carousel.
+// Edit these freely (the category names must match galleryData.js).
+const categoryInfo = {
+  "EMBLEMS & LOGOS": {
+    label: "Emblems & Logos",
+    price: "from $80",
+    blurb: "Crests, monograms and brand marks with a hand-painted, jewel-like finish.",
+  },
+  ILLUSTRATIONS: {
+    label: "Illustrations",
     price: "from $120",
-    img: portraitImg,
+    blurb: "Moody, cinematic scenes and characters painted with velvet light.",
   },
-  {
-    title: "Full Body",
-    text: "Your character head to toe, with costume detail, pose of your choosing, and a mood-matched backdrop.",
-    price: "from $240",
-    img: fullBodyImg,
+  GRAPHICS: {
+    label: "Graphics",
+    price: "from $60",
+    blurb: "Bold collage-style posters, covers and layouts with a vintage edge.",
   },
-  {
-    title: "Illustrated Scene",
-    text: "A complete narrative piece with environment, lighting, and up to two characters telling a story.",
-    price: "from $420",
-    img: sceneImg,
+  "EXPERIMENTAL WORK": {
+    label: "Experimental Work",
+    price: "from $100",
+    blurb: "Abstract, geometric and mixed-media pieces that break the rules.",
   },
-];
+};
+
+const slides = categories.map((c) => ({
+  name: c.name,
+  image: itemsOf(c.name)[0]?.image,
+  ...(categoryInfo[c.name] || { label: c.name, price: "", blurb: c.description }),
+}));
 
 const contacts = [
   { label: "Email", value: "hello@luminium.art", href: "mailto:hello@luminium.art" },
@@ -37,110 +48,94 @@ const contacts = [
 ];
 
 export default function Home() {
+  const [index, setIndex] = useState(0);
+  const n = slides.length;
+  const go = (step) => setIndex((i) => (i + step + n) % n);
+
+  // position of a slide relative to the one in focus: 0 = centre, -1 = left, 1 = right
+  const offsetOf = (i) => {
+    let d = (i - index + n) % n;
+    if (d > n / 2) d -= n;
+    return d;
+  };
+  const current = slides[index];
+
   return (
     <div className="home">
       {/* HERO */}
       <section className="hero">
-        <div className="hero-text">
-          <span className="badge">
-            <span className="badge-dot" />
-            Commissions open · 3 slots left
-          </span>
+        <img className="hero-bg" src={heroBg} alt="" />
+        <video
+          className="hero-video"
+          src={heroVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+        />
 
-          <h1 className="hero-title">
-            Paintings of <em>longing</em>
-            <br />&amp; velvet light
-          </h1>
-
-          <p className="hero-sub">
-            I&apos;m Lumi, a digital painter crafting romantic, smoke-soft
-            portraits steeped in rose, wine and violet.
-          </p>
-
-          <div className="hero-actions">
-            <Link to="/gallery" className="btn btn-dark">
-              View Gallery
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
-            <Link to="/commission-request" className="btn btn-pink">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9.9 4.5 11 8l3.5 1.1L11 10.2 9.9 13.7 8.8 10.2 5.3 9.1 8.8 8z" />
-                <path d="M17 13l.7 2.3L20 16l-2.3.7L17 19l-.7-2.3L14 16l2.3-.7z" />
-              </svg>
-              Request a Commission
-            </Link>
-          </div>
-          </div> 
-
-        <figure className="hero-featured">
-          <img src={moonlitVigil} alt="Moonlit Vigil" />
-          <figcaption>
-            <span className="feat-label">Featured work</span>
-            <span className="feat-title">Moonlit Vigil</span>
-          </figcaption>
-        </figure>
-      </section>
-
-            {/* AVAILABILITY */}
-      <section className="availability">
-        <div className="availability-text">
-          <span className="eyebrow">Live availability</span>
-          <h2>3 commission slots open this month</h2>
-          <p>
-            Currently accepting portraits and full-body pieces. Scene
-            illustrations reopen in December.
-          </p>
-        </div>
-
-        <div className="availability-side">
-          <div className="slot-dots">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <span key={i} className={i >= 2 ? "dot dot-on" : "dot"} />
-            ))}
-          </div>
-          <span className="availability-date">Updated November 2026</span>
-          <Link to="/commission-request" className="availability-link">
-            Claim a slot
+        <div className="hero-content">
+          <h1 className="hero-title">Art Portfolio</h1>
+          <Link to="/gallery" className="cta-btn">
+            View Gallery
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
           </Link>
         </div>
       </section>
 
-      {/* SERVICES */}
-      
-      <section className="offer">
-        <div className="section-head">
-          <span className="eyebrow">What I offer</span>
-          <h2>
-            Commission <em>types</em>
-          </h2>
-          <p>
-            Every piece is painted by hand in my signature style, with sketches
-            shared along the way so it feels truly yours.
-          </p>
-        </div>
+      {/* LOGO */}
+      <section className="logo-band">
+        <img className="logo-mark" src={logoImg} alt="Luminium" />
+      </section>
 
-        <div className="services">
-          {services.map((s) => (
-            <Link to="/commissions" className="card" key={s.title}>
-              <div className="card-img">
-                <img src={s.img} alt={s.title} />
-              </div>
-              <div className="card-body">
-                <div className="card-head">
-                  <h3>{s.title}</h3>
-                  <span className="card-price">{s.price}</span>
+      {/* CATEGORIES */}
+      <section className="cats" aria-label="Categories">
+        <span className="eyebrow cats-eyebrow">Explore categories</span>
+
+        <div className="cat-stage">
+          <div className="cat-cards">
+            {slides.map((sl, i) => {
+              const off = offsetOf(i);
+              const pos =
+                off === 0 ? "is-center" : off === -1 ? "is-left" : off === 1 ? "is-right" : "is-hidden";
+              return (
+                <div
+                  key={sl.name}
+                  className={`cat-card ${pos}`}
+                  onClick={off === 0 ? undefined : () => go(off)}
+                  aria-hidden={off !== 0}
+                >
+                  <img src={sl.image} alt={off === 0 ? sl.label : ""} draggable="false" />
                 </div>
-                <p>{s.text}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+              );
+            })}
+          </div>
 
-        <Link to="/commissions" className="offer-link">
-          Full pricing, terms &amp; process <span>↗</span>
-        </Link>
+          <div className="cat-info" key={index}>
+            <div className="cat-info-text">
+              <div className="cat-info-head">
+                <h3>{current.label}</h3>
+                <span className="cat-price">{current.price}</span>
+              </div>
+              <p>{current.blurb}</p>
+              <Link to="/gallery" state={{ category: current.name }} className="cat-link">
+                View in gallery <span>↗</span>
+              </Link>
+            </div>
+
+            <div className="cat-arrows">
+              <button type="button" className="cat-arrow" onClick={() => go(-1)} aria-label="Previous category">
+                ←
+              </button>
+              <button type="button" className="cat-arrow" onClick={() => go(1)} aria-label="Next category">
+                →
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ABOUT */}
@@ -179,7 +174,7 @@ export default function Home() {
             ))}
           </div>
 
-          <Link to="/commissions" className="btn btn-pink">
+          <Link to="/commissions" className="cta-btn">
             Commission information <span>↗</span>
           </Link>
         </div>

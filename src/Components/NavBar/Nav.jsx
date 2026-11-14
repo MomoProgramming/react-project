@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Nav.css";
+import CursorTrail from "../CursorTrail/CursorTrail.jsx";
 
 const navigationLinks = [
   { to: "/", label: "Home" },
@@ -9,6 +10,8 @@ const navigationLinks = [
 
 export default function Nav() {
   return (
+    <>
+    <CursorTrail />
     <header className="site-header">
       <nav className="site-nav" aria-label="Main navigation">
         <Link to="/" className="site-brand">
@@ -38,5 +41,6 @@ export default function Nav() {
         </div>
       </nav>
     </header>
+    </>
   );
 }
