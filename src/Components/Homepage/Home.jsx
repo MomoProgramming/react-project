@@ -7,7 +7,7 @@ import heroBg from "../../assets/hero-bg2.jpg";
 import logoImg from "../../assets/lumi-logo2.png";
 import heroVideo from "../../assets/hero-video2.mp4";
 import artistImg from "../../assets/artist.jpg";
-import { categories, itemsOf } from "../Gallery/galleryData";
+import { categories, itemsOf } from "../Gallery/Gallerydata";
 
 // Short text + price for each category on the homepage carousel.
 // Edit these freely (the category names must match galleryData.js).

@@ -11,7 +11,7 @@ import {
   categories,
   itemsOf,
   centerBrush,
-} from "../Gallery/galleryData";
+} from "../Gallery/Gallerydata";
 
 // Where the "Request a commission" button leads (email, Discord invite, form link...)
 const REQUEST_URL = "mailto:your@email.com?subject=Commission%20request";
