@@ -5,7 +5,7 @@ import "./Commissions.css";
 import "./CommissionsOffer.css";
 
 import bgTexture from "../../assets/bg-dark.jpg";
-import bgSmoke from "../../assets/bg-smoke.jpg";
+import bgVideo from "../../assets/services-bg2.mp4";
 import {
   galleryItems,
   categories,
@@ -92,13 +92,21 @@ export default function Commissions() {
 
   return (
     <div className="com-container">
+      {/* video background (replaces the old smoke picture) */}
+      <video
+        className="com-bg-video"
+        src={bgVideo}
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+      />
+      <div className="com-bg-video-shade" aria-hidden="true" />
+
       <div
         className="com-bg-base"
         style={{ backgroundImage: `url(${bgTexture})` }}
-      />
-      <div
-        className="com-bg-overlay"
-        style={{ backgroundImage: `url(${bgSmoke})` }}
       />
 
       {/* Blurred artwork glow (used by the offer section) */}

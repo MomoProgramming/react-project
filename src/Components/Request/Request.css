@@ -1,0 +1,431 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Cormorant+SC:wght@300;400;500&display=swap");
+
+/* ---------- Page + video background ---------- */
+
+.req-page {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 8.5rem 1.2rem 5rem;
+  font-family: "Cormorant Garamond", serif;
+  color: #f3e6ea;
+  overflow: hidden;
+}
+
+.req-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* the video is vertical: it fills the screen */
+  z-index: 0;
+}
+
+/* darkens the video so the form stays readable */
+.req-video-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(4, 1, 2, 0.3) 0%,
+    rgba(4, 1, 2, 0.7) 100%
+  );
+  pointer-events: none;
+}
+
+/* ---------- White lines (same as the Services page) ---------- */
+
+.req-lines {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.req-line-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.req-line-v-1 { left: 19%; }
+.req-line-v-2 { left: 22%; opacity: 0.35; }
+.req-line-v-3 { left: 74.5%; }
+
+.req-line-h-top {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* bright gradient line with a soft glow, like the one next to the Services sidebar */
+.req-line-neon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(max(0px, (100vw - 1500px) / 2) + 2rem + 240px + 8px);
+  width: 1px;
+  background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+.req-line-neon-glow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(max(0px, (100vw - 1500px) / 2) + 2rem + 240px + 8px - 12px);
+  width: 12px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.25));
+  filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+
+@media (max-width: 900px) {
+  .req-line-neon,
+  .req-line-neon-glow { display: none; }
+}
+
+/* ---------- Dim falling streaks of light ---------- */
+
+.req-lights {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.40;               /* overall dimness: lower = dimmer */
+}
+
+.req-light {
+  position: absolute;
+  top: 0;
+  width: 1.5px;
+  height: var(--h);
+  border-radius: 2px;
+  /* faint at the top, brighter towards the glowing head */
+  background: linear-gradient(to bottom, transparent 0%, var(--c) 100%);
+  box-shadow: 0 0 10px var(--c);
+  transform: translateY(-110%);
+  animation-name: lightFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* the glowing round head at the bottom of each streak */
+.req-light::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  width: 4px;
+  height: 7px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 12px 3px var(--c);
+}
+
+@keyframes lightFall {
+  from { transform: translateY(-110%); }
+  to   { transform: translateY(calc(100vh + 20px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .req-light { animation: none; transform: translateY(12vh); }
+}
+
+/* ---------- Outer frame (rounded rectangle) ---------- */
+
+.req-frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 680px;
+  padding: 2.4rem 2rem 4.2rem;
+  border: 1px solid rgba(214, 150, 150, 0.35);
+  border-radius: 28px;
+  background: rgba(6, 2, 4, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.req-head {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.req-kicker {
+  display: block;
+  font-size: 0.85rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.7rem;
+}
+
+.req-title {
+  font-family: "Cormorant SC", "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 4.5vw, 2.5rem);
+  letter-spacing: 5px;
+  color: #ffffff;
+  text-shadow: 0 0 22px rgba(255, 255, 255, 0.45), 0 0 40px rgba(214, 28, 56, 0.35);
+  margin: 0 0 0.8rem;
+}
+
+.req-intro {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+/* ---------- Inner card ---------- */
+
+.req-card {
+  position: relative;
+  padding: 2rem 1.8rem 4.4rem;     /* extra space at the bottom for the circle */
+  border: 1px solid rgba(214, 150, 150, 0.4);
+  border-radius: 20px;
+  background: rgba(10, 4, 7, 0.65);
+}
+
+/* ---------- Form ---------- */
+
+.req-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.req-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.req-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.req-label {
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.req-label em {
+  font-style: normal;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.req-field input[type="text"],
+.req-field input[type="email"],
+.req-field textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.req-field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.req-field input::placeholder,
+.req-field textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.req-field input:focus,
+.req-field textarea:focus {
+  border-color: rgba(214, 28, 56, 0.8);
+  box-shadow: 0 0 14px rgba(214, 28, 56, 0.35);
+}
+
+/* ---------- Inspiration pictures ---------- */
+
+.req-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.req-thumb {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.req-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.req-thumb-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  line-height: 1;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.req-thumb-remove:hover {
+  background: #d61c38;
+}
+
+.req-add {
+  width: 84px;
+  height: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.req-add span {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.req-add:hover {
+  color: #ffffff;
+  border-color: rgba(214, 28, 56, 0.8);
+  box-shadow: 0 0 12px rgba(214, 28, 56, 0.35);
+}
+
+.req-hint {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ---------- Circle send button on the lower edge of the card ---------- */
+
+.req-send {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  width: 104px;
+  height: 104px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-family: "Cormorant SC", "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: radial-gradient(circle at 30% 25%, #4a0a18 0%, #14040a 70%);
+  border: 4px solid rgba(8, 3, 5, 0.95);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(214, 150, 150, 0.6),
+    0 0 24px rgba(214, 28, 56, 0.45);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.req-send:hover,
+.req-send:focus-visible {
+  transform: translate(-50%, calc(50% - 3px));
+  background: radial-gradient(circle at 30% 25%, #8a1228 0%, #1c050c 70%);
+  box-shadow: 0 0 0 1px rgba(255, 170, 180, 0.8),
+    0 0 34px rgba(214, 28, 56, 0.75);
+  outline: none;
+}
+
+/* ---------- Success message ---------- */
+
+.req-done {
+  text-align: center;
+  padding: 2rem 0 1rem;
+}
+
+.req-done h2 {
+  font-family: "Cormorant SC", "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-size: 1.7rem;
+  letter-spacing: 4px;
+  color: #ffffff;
+  margin: 0 0 0.8rem;
+}
+
+.req-done p {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 1.6rem;
+}
+
+.req-again {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.95rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid rgba(214, 150, 150, 0.6);
+  border-radius: 9999px;
+  padding: 0.7rem 1.8rem;
+  cursor: pointer;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.req-again:hover {
+  border-color: rgba(255, 120, 140, 0.9);
+  box-shadow: 0 0 16px rgba(214, 28, 56, 0.5);
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 600px) {
+  .req-frame { padding: 1.6rem 1rem 4rem; border-radius: 22px; }
+  .req-card { padding: 1.4rem 1rem 3.6rem; }
+  .req-row { grid-template-columns: 1fr; }
+}

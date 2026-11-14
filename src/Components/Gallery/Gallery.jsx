@@ -5,7 +5,7 @@ import "./GalleryFilm.css";
 
 import bgTexture from "../../assets/bg-dark.jpg";
 import bgSmoke from "../../assets/bg-smoke.jpg"; // the red/black smoke picture
-import { galleryItems, categories, itemsOf } from "./galleryData";
+import { galleryItems, categories, itemsOf } from "./Gallerydata";
 
 const FILM_COLUMNS = 9;   // number of vertical strips
 const FRAMES_PER_STRIP = 8; // frames per strip (repeated twice for a seamless loop)

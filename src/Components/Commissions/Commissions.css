@@ -38,20 +38,33 @@ html {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  mix-blend-mode: screen;     /* black parts vanish so the video shows through */
   opacity: 0.5;
   z-index: 0;
 }
 
-.com-bg-overlay {
+/* Video background (replaces the old smoke picture) */
+.com-bg-video {
   position: absolute;
   inset: 0;
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  mix-blend-mode: screen;
-  opacity: 0.4;
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* the video is vertical: it fills the screen */
   z-index: 0;
+  pointer-events: none;
+}
+
+/* light darkening so the text stays readable; lower the alphas to show more video */
+.com-bg-video-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(4, 1, 2, 0.15) 0%,
+    rgba(4, 1, 2, 0.55) 100%
+  );
+  pointer-events: none;
 }
 
 /* Decorative lines */
