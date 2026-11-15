@@ -39,10 +39,10 @@ const slides = categories.map((c) => ({
 }));
 
 const contacts = [
-  { label: "Email", value: "hello@luminium.art", href: "mailto:hello@luminium.art" },
-  { label: "Instagram", value: "@lumini.um", href: "https://instagram.com" },
+  { label: "Email", value: "adina2015sm@gmail.com", href: "mailto:adina2015sm@gmail.com" },
+  { label: "Instagram", value: "@c_adina_", href: "https://www.instagram.com/c_adina_?srtk=YnVqa3Nlam1hOXVm" },
   { label: "X / Twitter", value: "@lumini.um", href: "https://x.com" },
-  { label: "ArtStation", value: "lumini.um", href: "https://artstation.com" },
+  { label: "ArtStation", value: "luminium", href: "https://www.artstation.com/luminium" },
 ];
 
 export default function Home() {
