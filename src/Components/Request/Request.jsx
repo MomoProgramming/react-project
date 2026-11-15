@@ -3,9 +3,13 @@ import "./Request.css";
 import bgVideo from "../../assets/request-bg.mp4";
 
 const MAX_IMAGES = 6;
-// letters (incl. diacritics), spaces, hyphen, apostrophe, dot – no digits
-const NAME_RE = /^\p{L}[\p{L}\s.'’-]*$/u;
+const NAME_MAX = 100;
+const EMAIL_MAX = 254;
+// Must match the API (api/Validation/CommissionValidator.cs):
+// starts with a Unicode letter, then letters, combining marks, space, . ' ’ - (no digits)
+const NAME_RE = /^\p{L}[\p{L}\p{M} .'’-]*$/u;
 const EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+const API_URL = import.meta.env.VITE_API_URL ?? "";
 
 // Falling light streaks: left = position, h = length (vh), d = seconds per fall,
 // delay = start offset (negative = already falling when the page opens), c = colour
@@ -24,6 +28,8 @@ export default function Request() {
   const [images, setImages] = useState([]); // [{ id, file, url }]
   const [sent, setSent] = useState(false);
   const [errors, setErrors] = useState({});
+  const [sending, setSending] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const fileInput = useRef(null);
 
   // free the preview URLs when leaving the page
@@ -59,29 +65,63 @@ export default function Request() {
     });
   };
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
+  if (sending) return;
   const data = new FormData(e.currentTarget);
 
   const name = String(data.get("name") || "").trim();
   const email = String(data.get("email") || "").trim();
   const nextErrors = {};
-  if (!NAME_RE.test(name)) nextErrors.name = "Name can only contain letters (no numbers).";
-  if (!EMAIL_RE.test(email)) nextErrors.email = "Enter a valid email, e.g. name@site.com";
+  if (!name) nextErrors.name = "Please enter your name.";
+  else if (name.length > NAME_MAX) nextErrors.name = `Name must be at most ${NAME_MAX} characters.`;
+  else if (!NAME_RE.test(name)) nextErrors.name = "Name can only contain letters, spaces, . ' and -.";
+  if (!email) nextErrors.email = "Please enter your email.";
+  else if (email.length > EMAIL_MAX) nextErrors.email = `Email must be at most ${EMAIL_MAX} characters.`;
+  else if (!EMAIL_RE.test(email)) nextErrors.email = "Enter a valid email, e.g. name@site.com";
   setErrors(nextErrors);
+  setSubmitError("");
   if (Object.keys(nextErrors).length) return;
     images.forEach((img) => data.append("inspiration", img.file));
 
-    // TODO: send `data` to your backend / form service here, e.g.
-    // await fetch("/api/commission", { method: "POST", body: data });
-    console.log(Object.fromEntries(data.entries()));
+    setSending(true);
+    try {
+      const res = await fetch(`${API_URL}/api/commissions`, { method: "POST", body: data });
 
-    setSent(true);
+      if (res.ok) {
+        setSent(true);
+        return;
+      }
+
+      if (res.status === 400) {
+        // ValidationProblemDetails: { errors: { name: [...], email: [...], title, details, inspiration } }
+        const body = await res.json().catch(() => null);
+        const fieldErrors = body?.errors ?? {};
+        setErrors({
+          ...(fieldErrors.name && { name: fieldErrors.name[0] }),
+          ...(fieldErrors.email && { email: fieldErrors.email[0] }),
+        });
+        const other = ["title", "details", "inspiration"].flatMap((k) => fieldErrors[k] ?? []);
+        setSubmitError(other.join(" ") || "Please check the highlighted fields.");
+      } else if (res.status === 413) {
+        setSubmitError("Your pictures are too large to send. Please remove some and try again.");
+      } else {
+        setSubmitError("Something went wrong on our side. Please try again in a moment.");
+      }
+    } catch {
+      setSubmitError("Could not reach the server. Check your connection and try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
+  // The form unmounts while "Request received" is shown, so its text fields
+  // come back empty when it remounts; here we clear everything else.
   const reset = () => {
     images.forEach((i) => URL.revokeObjectURL(i.url));
     setImages([]);
+    setErrors({});
+    setSubmitError("");
     setSent(false);
   };
 
@@ -232,6 +272,8 @@ const handleSubmit = (e) => {
                   Up to {MAX_IMAGES} images · {images.length}/{MAX_IMAGES} added
                 </small>
               </div>
+
+              {submitError && <p className="req-error" role="alert">{submitError}</p>}
             </form>
           ) : (
             <div className="req-done">
@@ -245,8 +287,14 @@ const handleSubmit = (e) => {
 
           {/* The circle on the lower edge of the card = the send button */}
           {!sent && (
-            <button type="submit" form="commission-form" className="req-send">
-              <span>Send</span>
+            <button
+              type="submit"
+              form="commission-form"
+              className="req-send"
+              disabled={sending}
+              aria-busy={sending}
+            >
+              <span>{sending ? "Sending…" : "Send"}</span>
             </button>
           )}
         </div>
