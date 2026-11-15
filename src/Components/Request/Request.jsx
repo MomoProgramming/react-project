@@ -3,6 +3,9 @@ import "./Request.css";
 import bgVideo from "../../assets/request-bg.mp4";
 
 const MAX_IMAGES = 6;
+// letters (incl. diacritics), spaces, hyphen, apostrophe, dot – no digits
+const NAME_RE = /^\p{L}[\p{L}\s.'’-]*$/u;
+const EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
 
 // Falling light streaks: left = position, h = length (vh), d = seconds per fall,
 // delay = start offset (negative = already falling when the page opens), c = colour
@@ -20,6 +23,7 @@ const LIGHTS = [
 export default function Request() {
   const [images, setImages] = useState([]); // [{ id, file, url }]
   const [sent, setSent] = useState(false);
+  const [errors, setErrors] = useState({});
   const fileInput = useRef(null);
 
   // free the preview URLs when leaving the page
@@ -55,9 +59,17 @@ export default function Request() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
+const handleSubmit = (e) => {
+  e.preventDefault();
+  const data = new FormData(e.currentTarget);
+
+  const name = String(data.get("name") || "").trim();
+  const email = String(data.get("email") || "").trim();
+  const nextErrors = {};
+  if (!NAME_RE.test(name)) nextErrors.name = "Name can only contain letters (no numbers).";
+  if (!EMAIL_RE.test(email)) nextErrors.email = "Enter a valid email, e.g. name@site.com";
+  setErrors(nextErrors);
+  if (Object.keys(nextErrors).length) return;
     images.forEach((img) => data.append("inspiration", img.file));
 
     // TODO: send `data` to your backend / form service here, e.g.
@@ -124,21 +136,36 @@ export default function Request() {
 
         <div className="req-card">
           {!sent ? (
-            <form className="req-form" onSubmit={handleSubmit} id="commission-form">
+            <form className="req-form" onSubmit={handleSubmit} id="commission-form" noValidate>
               <div className="req-row">
-                <label className="req-field">
-                  <span className="req-label">Name</span>
-                  <input name="name" type="text" placeholder="Your name" required />
-                </label>
-                <label className="req-field">
-                  <span className="req-label">Email</span>
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    required
-                  />
-                </label>
+               <label className="req-field">
+  <span className="req-label">Name</span>
+  <input
+    name="name"
+    type="text"
+    placeholder="Your name"
+    required
+    aria-invalid={!!errors.name}
+    onInput={(e) => {
+      // block digits while typing / pasting
+      e.target.value = e.target.value.replace(/\d/g, "");
+    }}
+  />
+  {errors.name && <small className="req-error" role="alert">{errors.name}</small>}
+</label>
+<label className="req-field">
+  <span className="req-label">Email</span>
+  <input
+    name="email"
+    type="text"
+    inputMode="email"
+    autoComplete="email"
+    placeholder="you@example.com"
+    required
+    aria-invalid={!!errors.email}
+  />
+  {errors.email && <small className="req-error" role="alert">{errors.email}</small>}
+</label>
               </div>
 
               <label className="req-field">

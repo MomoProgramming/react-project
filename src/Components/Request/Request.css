@@ -429,3 +429,14 @@
   .req-card { padding: 1.4rem 1rem 3.6rem; }
   .req-row { grid-template-columns: 1fr; }
 }
+
+/* error */
+
+.req-error {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+}
+.req-field input[aria-invalid="true"] {
+  border-color: #ff6b6b;
+}

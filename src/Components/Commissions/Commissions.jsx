@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../Gallery/Gallery.css"; // grid / detail styles used by "What I offer"
 import "./Commissions.css";
-import "./CommissionsOffer.css";
+import "./Commissionsoffer.css";
 
 import bgTexture from "../../assets/bg-dark.jpg";
 import bgVideo from "../../assets/services-bg2.mp4";
@@ -13,7 +13,6 @@ import {
   centerBrush,
 } from "../Gallery/Gallerydata";
 
-// Where the "Request a commission" button leads (email, Discord invite, form link...)
 const REQUEST_URL = "mailto:your@email.com?subject=Commission%20request";
 
 const sections = [
@@ -36,9 +35,9 @@ const facts = [
 
 function RequestButton() {
   return (
-    <a className="com-btn" href={REQUEST_URL}>
-      Request a commission
-    </a>
+    <Link className="com-btn" to="/commission-request">
+  Request a commission
+</Link>
   );
 }
 
